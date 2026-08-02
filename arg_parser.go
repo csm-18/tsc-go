@@ -1,8 +1,9 @@
 package main
 
-import "fmt"
-
 // parse cli args into compiler options
 func parseArgs(args []string) {
-	fmt.Println(args)
+	error := CreateDiangosticMessage(5083, "hello.txt")
+	if error.Message != "" {
+		error.Print()
+	}
 }
