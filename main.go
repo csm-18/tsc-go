@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-	fmt.Println("hello world!")
+	args := os.Args[1:]
+	fmt.Println(args)
 }
