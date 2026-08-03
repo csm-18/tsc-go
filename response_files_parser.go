@@ -1,5 +1,7 @@
 package main
 
+import "unicode"
+
 func expandResponseFiles(args []string) ([]string, []DiagnosticMessage) {
 	var errors []DiagnosticMessage
 	responseFilesCount := 0
@@ -40,8 +42,56 @@ func expandResponseFiles(args []string) ([]string, []DiagnosticMessage) {
 }
 
 func parseResponseFile(filename string) ([]string, DiagnosticMessage) {
-	var error DiagnosticMessage
 	var args []string
+	var error DiagnosticMessage
+
+	//check if the file exists
+	error = FileExists(filename)
+	if error.Message != "" {
+		return nil, error
+	}
+
+	//read file to string
+	text, readError := ReadFileToString(filename)
+	if readError.Message != "" {
+		error = readError
+		return nil, error
+	}
+
+	//parsing
+	x := 0
+	for x < len(text) {
+		if unicode.IsSpace(rune(text[x])) {
+			//skip whitespace
+		} else if text[x] == '"' {
+			endQuote := false
+			y := x + 1
+			for y < len(text) {
+				if text[y] == '"' {
+					endQuote = true
+					break
+				}
+				y += 1
+			}
+			if endQuote {
+				args = append(args, text[x+1:y])
+				x = y
+			} else {
+				//unterminated quoted string error
+				error = CreateDiangosticMessage(6045, filename)
+				return nil, error
+			}
+		} else {
+			//unquoted string parsing
+			y := x
+			for y < len(text) && !unicode.IsSpace(rune(text[y])) {
+				y += 1
+			}
+			args = append(args, text[x:y])
+			x = y
+		}
+		x += 1
+	}
 	return args, error
 }
 

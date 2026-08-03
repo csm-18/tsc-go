@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // parse cli args into compiler options
 func parseArgs(args []string) {
 	//expand all response files
@@ -10,6 +12,8 @@ func parseArgs(args []string) {
 				parseError.Print()
 			}
 		}
+	} else {
+		fmt.Println(parsedArgs)
 	}
 	args = parsedArgs
 }
