@@ -2,8 +2,14 @@ package main
 
 // parse cli args into compiler options
 func parseArgs(args []string) {
-	error := CreateDiangosticMessage(5083, "hello.txt")
-	if error.Message != "" {
-		error.Print()
+	//expand all response files
+	parsedArgs, parseErrors := expandResponseFiles(args)
+	if len(parseErrors) > 0 {
+		for _, parseError := range parseErrors {
+			if parseError.Message != "" {
+				parseError.Print()
+			}
+		}
 	}
+	args = parsedArgs
 }

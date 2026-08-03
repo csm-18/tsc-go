@@ -38,6 +38,7 @@ func CreateDiangosticMessage(code int, args ...any) DiagnosticMessage {
 	return diagnosticMessage
 }
 
+// list of all diagnostic messages
 var diagnostic_messages = []DiagnosticMessage{
 	{
 		5012,
