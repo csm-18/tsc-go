@@ -24,6 +24,19 @@ func parseArgs(args []string) {
 			} else {
 				optionName = optionName[1:]
 			}
+
+			//parse options with values
+			option := getOptionFromName(optionName)
+			switch option.Type {
+			case "normal":
+			case "watch":
+			case "build":
+			default:
+				//check for spelling mistake
+
+				//unknown option error
+
+			}
 		} else {
 			//store filenames
 			fileNames = append(fileNames, args[x])
