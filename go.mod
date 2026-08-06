@@ -1,3 +1,3 @@
-module tsc
+module gtsc
 
 go 1.26.5
